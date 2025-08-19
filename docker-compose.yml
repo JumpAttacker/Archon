@@ -22,6 +22,7 @@ services:
       - ARCHON_AGENTS_PORT=${ARCHON_AGENTS_PORT:-8052}
     networks:
       - app-network
+      - dokploy-network
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock  # Docker socket for MCP container control
       - ./python/src:/app/src  # Mount source code for hot reload
@@ -60,6 +61,7 @@ services:
       - ARCHON_AGENTS_PORT=${ARCHON_AGENTS_PORT:-8052}
     networks:
       - app-network
+      - dokploy-network
     depends_on:
       - archon-server
       - archon-agents
@@ -92,6 +94,7 @@ services:
       - ARCHON_SERVER_PORT=${ARCHON_SERVER_PORT:-8181}
     networks:
       - app-network
+      - dokploy-network
     healthcheck:
       test: ["CMD", "sh", "-c", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:${ARCHON_AGENTS_PORT:-8052}/health')\""]
       interval: 30s
@@ -111,6 +114,7 @@ services:
       - HOST=${HOST:-localhost}
     networks:
       - app-network
+      - dokploy-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5173"]
       interval: 30s
@@ -123,5 +127,7 @@ services:
       - archon-server
 
 networks:
+  dokploy-network:
+    external: true
   app-network:
     driver: bridge
