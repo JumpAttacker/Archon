@@ -283,7 +283,12 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       hmr: {
         host: 'localhost'
       },
-      allowedHosts: 'all', // Allow all hosts for NetBird access
+      allowedHosts: [
+        'localhost',
+        'veomaster-prod.netbird.cloud',
+        '.netbird.cloud',
+        '100.64.0.0/10'
+      ], // Allow localhost, NetBird domains and NetBird IP range
       proxy: {
         '/api': {
           target: `http://${host}:${port}`,
